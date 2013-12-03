@@ -27,16 +27,30 @@
     
 }
 
-+(NSDictionary *)filterDictionary:(NSString *)propertyName withValue:(id)value operator:(RYiiOperator)operatorType
++(NSDictionary *)dictionaryFilterProperty:(NSString *)propertyName withValue:(id)value operator:(RYiiOperator)operatorType
 {
-    return [self filterDictionary:propertyName withValue:value operator:operatorType error:nil];
+    return [self dictionaryFilterProperty:propertyName withValue:value operator:operatorType error:nil];
 }
 
-+(NSDictionary *)filterDictionary:(NSString *)propertyName withValue:(id)value operator:(RYiiOperator)operatorType error:(NSError *__autoreleasing *)error{
++(NSDictionary *)dictionaryFilterProperty:(NSString *)propertyName withValue:(id)value operator:(RYiiOperator)operatorType error:(NSError *__autoreleasing *)error{
     
     RYiiFilter * filter = [self filterProperty:propertyName withValue:value operator:operatorType error:error];
     
     return [filter dictionary];
+    
+}
+
++(NSString *)jsonFilterProperty:(NSString *)propertyName withValue:(id)value operator:(RYiiOperator)operatorType error:(NSError *__autoreleasing *)error {
+    
+    RYiiFilter * filter = [self filterProperty:propertyName withValue:value operator:operatorType error:error];
+    
+    return [filter jsonString];
+    
+}
+
++(NSString *)jsonFilterProperty:(NSString *)propertyName withValue:(id)value operator:(RYiiOperator)operatorType {
+    
+    return [self jsonFilterProperty:propertyName withValue:value operator:operatorType error:nil];
     
 }
 
@@ -55,6 +69,14 @@
     
     
     return dictionary;
+    
+}
+
+-(NSString *)jsonString {
+    
+    NSData * jsonData = [NSJSONSerialization dataWithJSONObject:[self dictionary] options:0 error:nil];
+    
+    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     
 }
 
@@ -174,11 +196,12 @@
         case RYiiOperatorLessOrEqual:
             operator = @"<=";
             break;
-        
+            
         case RYiiOperatorLike:
         default:
             
             //no operator (nil) is "LIKE" for sql operator
+            operator = @"";
             
             break;
     }
@@ -186,5 +209,20 @@
     return operator;
 }
 
++(NSString *)jsonStringForFilters:(NSArray *)filters{
+    
+    NSMutableArray * dictionaryArray = [NSMutableArray array];
+    
+    for(RYiiFilter * filter in filters){
+        
+        [dictionaryArray addObject:[filter dictionary]];
+        
+    }
+    
+    NSData * jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryArray options:0 error:nil];
+    
+    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
+}
 
 @end

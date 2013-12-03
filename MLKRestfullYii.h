@@ -32,9 +32,17 @@ typedef enum {
 
 +(RYiiFilter *)filterProperty:(NSString *)propertyName withValue:(id)value operator:(RYiiOperator)operatorType;
 
-+(NSDictionary *)filterDictionary:(NSString *)propertyName withValue:(id)value operator:(RYiiOperator)operatorType;
++(NSDictionary *)dictionaryFilterProperty:(NSString *)propertyName withValue:(id)value operator:(RYiiOperator)operatorType;
 
-+(NSDictionary *)filterDictionary:(NSString *)propertyName withValue:(id)value operator:(RYiiOperator)operatorType error:(NSError **)error;
++(NSDictionary *)dictionaryFilterProperty:(NSString *)propertyName withValue:(id)value operator:(RYiiOperator)operatorType error:(NSError **)error;
+
++(NSString *)jsonFilterProperty:(NSString *)propertyName withValue:(id)value operator:(RYiiOperator)operatorType error:(NSError **)error;
+
++(NSString *)jsonFilterProperty:(NSString *)propertyName withValue:(id)value operator:(RYiiOperator)operatorType;
+
+
+
+-(NSString *)jsonString;
 
 -(NSDictionary *)dictionary;
 
@@ -45,6 +53,8 @@ typedef enum {
 +(id)formattedValueFromValue:(id)value error:(NSError **)error;
 
 +(NSString *)operatorStringFromRYiiOperator:(RYiiOperator)operatorType;
+
++(NSString *)jsonStringForFilters:(NSArray *)filters;
 
 
 @end
