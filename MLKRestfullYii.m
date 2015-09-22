@@ -147,13 +147,14 @@
     
     // Check if it's a NSString
     
-    else if([value isKindOfClass:[NSString class]]){
+    else if([value isKindOfClass:[NSString class]] || [value isKindOfClass:[NSNumber class]]){
         
         //any string formatting if needed
         
         formattedValue = value;
         
-    }else{
+    }else if([value isKindOfClass:[NSNumber class]]){
+        
         
         *error = [NSError errorWithDomain:@"com.michaelkral.restfullyii" code:5440 userInfo:@{@"description":@"The value is not a null, array (with nsnumbers or nsstrings)"}];
         
