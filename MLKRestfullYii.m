@@ -123,14 +123,20 @@
             if (![arrayValue isKindOfClass:[NSString class]] &&
                 ![arrayValue isKindOfClass:[NSNumber class]]) {
                 
-                *error = [NSError errorWithDomain:@"com.michaelkral.restfullyii" code:5420 userInfo:@{@"description":@"If the value is an array, it must only contain NSStrings or NSNumbers."}];
+                if(error){
+                    *error = [NSError errorWithDomain:@"com.michaelkral.restfullyii" code:5420 userInfo:@{@"description":@"If the value is an array, it must only contain NSStrings or NSNumbers."}];
+                }
                 
                 break;
                 
             }
             
             if (![arrayValue isKindOfClass:arrayValueClass]) {
-                *error = [NSError errorWithDomain:@"com.michaelkral.restfullyii" code:5430 userInfo:@{@"description":@"The array must contain an exclusive class of strings or numbers, not both"}];
+                
+                if(error){
+                    *error = [NSError errorWithDomain:@"com.michaelkral.restfullyii" code:5430 userInfo:@{@"description":@"The array must contain an exclusive class of strings or numbers, not both"}];
+                }
+                
                 
                 break;
             }
